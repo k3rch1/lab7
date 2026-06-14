@@ -13,7 +13,7 @@ public:
 
     virtual T get_next() = 0;
 
-    virtual generator<T>* clone() const = 0;
+    virtual generator<T>* clone(const sequence<T>* cache) const = 0;
 
     virtual ~generator() = default;
 };

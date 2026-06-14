@@ -14,7 +14,7 @@ public:
 
     T get_next() override;
 
-    generator<T>* clone() const override;
+    generator<T>* clone(const sequence<T>* cache) const override;
 };
 
 template<class T>
@@ -28,6 +28,6 @@ T rule_generator<T>::get_next() {
 }
 
 template<class T>
-generator<T>* rule_generator<T>::clone() const {
-    return new rule_generator(*this);
+generator<T>* rule_generator<T>::clone(const sequence<T>* cache) const {
+    return new rule_generator(cache, rule_);
 }

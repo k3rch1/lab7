@@ -9,6 +9,7 @@ add_executable(
     tests
     sequence_generator_tests.cpp
     rule_generator_tests.cpp
+    lazy_sequence_tests.cpp
 )
 
 target_include_directories(
