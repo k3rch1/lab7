@@ -10,14 +10,14 @@ TEST(lazy_sequence, finite_ctor) {
     array_sequence<int> source = {1, 2, 3};
     lazy_sequence<int> seq(source);
 
-    ASSERT_EQ(seq.cardinality(), cardinal::finite);
+    ASSERT_EQ(seq.cardinality(), cardinal(3));
 
     for (size_t i = 0; i < source.size(); ++i) ASSERT_EQ(seq.get(i), source[i]);
 }
 
 TEST(lazy_sequence, infinite_ctor) {
     auto fib = fibonacci_seq();
-    ASSERT_EQ(fib.cardinality(), cardinal::infinite);
+    ASSERT_EQ(fib.cardinality(), cardinal::omega());
     array_sequence<int> expected = {1, 1, 2, 3, 5, 8, 13, 21};
 
     for (size_t i = 0; i < expected.size(); ++i) ASSERT_EQ(fib.get(i), expected[i]);
@@ -77,13 +77,13 @@ TEST(lazy_sequence, cardinality_finite) {
     array_sequence<int> arr = {1, 2, 3};
     lazy_sequence<int> seq(arr);
 
-    ASSERT_EQ(seq.cardinality(), cardinal::finite);
+    ASSERT_TRUE(seq.cardinality().is_finite());
 }
 
 TEST(lazy_sequence, cardinality_infinite) {
     auto fib = fibonacci_seq();
 
-    ASSERT_EQ(fib.cardinality(), cardinal::infinite);
+    ASSERT_TRUE(fib.cardinality().is_infinite());
 }
 
 TEST(lazy_sequence, empty) {

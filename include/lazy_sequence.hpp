@@ -2,17 +2,13 @@
 #include <functional>
 #include "array_sequence.hpp"
 #include "rule_generator.hpp"
-
-enum class cardinal {
-    finite,
-    infinite
-};
+#include "cardinal.hpp"
 
 template<class T>
 class lazy_sequence : public sequence<T> {
 private:
     array_sequence<T> cache_;
-    cardinal cardinality_ = cardinal::finite;
+    cardinal cardinality_;
     generator<T>* generator_ = nullptr;
 
     void memoize(size_t index);
@@ -77,12 +73,12 @@ void lazy_sequence<T>::memoize(size_t index) {
 }
 
 template<class T>
-lazy_sequence<T>::lazy_sequence(const sequence<T>& source) : cardinality_(cardinal::finite), exhausted_(true) {
+lazy_sequence<T>::lazy_sequence(const sequence<T>& source) : cardinality_(source.size()), exhausted_(true) {
     for (size_t i = 0; i < source.size(); ++i) cache_.append(source[i]);
 }
 
 template<class T>
-lazy_sequence<T>::lazy_sequence(const sequence<T>& seed, std::function<T(const sequence<T>&)> rule) : cardinality_(cardinal::infinite) {
+lazy_sequence<T>::lazy_sequence(const sequence<T>& seed, std::function<T(const sequence<T>&)> rule) : cardinality_(cardinal::omega()) {
     for (size_t i = 0; i < seed.size(); ++i) cache_.append(seed[i]);
     generator_ = new rule_generator<T>(&cache_, std::move(rule));
 }
@@ -204,21 +200,25 @@ void lazy_sequence<T>::set(size_t index, T&& value) {
 template<class T>
 void lazy_sequence<T>::append(const T& value) {
     cache_.append(value);
+    ++cardinality_;
 }
 
 template<class T>
 void lazy_sequence<T>::append(T&& value) {
     cache_.append(std::move(value));
+    ++cardinality_;
 }
 
 template<class T>
 void lazy_sequence<T>::prepend(const T& value) {
     cache_.prepend(value);
+    ++cardinality_;
 }
 
 template<class T>
 void lazy_sequence<T>::prepend(T&& value) {
     cache_.prepend(std::move(value));
+    ++cardinality_;
 }
 
 template<class T>
@@ -230,6 +230,7 @@ void lazy_sequence<T>::insert(size_t index, const T& value) {
     }
 
     cache_.insert(index, value);
+    ++cardinality_;
 }
 
 template<class T>
@@ -241,12 +242,14 @@ void lazy_sequence<T>::insert(size_t index, T&& value) {
     }
 
     cache_.insert(index, std::move(value));
+    ++cardinality_;
 }
 
 template<class T>
 void lazy_sequence<T>::remove(size_t index) {
     memoize(index);
     cache_.remove(index);
+    --cardinality_;
 }
 
 template<class T>
