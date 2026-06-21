@@ -10,6 +10,9 @@ add_executable(
     sequence_generator_tests.cpp
     rule_generator_tests.cpp
     lazy_sequence_tests.cpp
+    stream_tests.cpp
+    test_helpers.cpp
+    ../src/cardinal.cpp
 )
 
 target_include_directories(

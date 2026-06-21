@@ -1,10 +1,6 @@
 #include <gtest/gtest.h>
 #include "lazy_sequence.hpp"
-
-lazy_sequence<int> fibonacci_seq() {
-    array_sequence<int> seed = {1, 1};
-    return lazy_sequence<int>(seed, [](const sequence<int>& seq) {return seq[seq.size() - 1] + seq[seq.size() - 2];});
-}
+#include "test_helpers.hpp"
 
 TEST(lazy_sequence, finite_ctor) {
     array_sequence<int> source = {1, 2, 3};
