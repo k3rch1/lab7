@@ -9,7 +9,7 @@ private:
     size_t position_ = 0;
 
 public:
-    explicit lazy_sequence_stream(lazy_sequence<T>* source) : source_(source) {};
+    lazy_sequence_stream(lazy_sequence<T>* source) : source_(source) {};
 
     bool is_end_of_stream() const override;
 

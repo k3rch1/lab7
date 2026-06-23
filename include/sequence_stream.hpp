@@ -9,7 +9,7 @@ private:
     size_t position_ = 0;
 
 public:
-    explicit sequence_stream(sequence<T>* source) : source_(source) {};
+    sequence_stream(sequence<T>* source) : source_(source) {};
 
     bool is_end_of_stream() const override;
 

@@ -14,3 +14,14 @@ set(CMAKE_AUTORCC ON)
 add_subdirectory(subs/lab5)
 
 add_subdirectory(tests)
+
+add_executable(ui
+    main.cpp
+    src/cardinal.cpp
+    src/menu.cpp
+    tests/test_helpers.cpp
+)
+
+target_include_directories(ui PRIVATE include)
+
+target_link_libraries(ui PRIVATE lab5)
